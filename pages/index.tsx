@@ -7,7 +7,8 @@ const Home: NextPage = () => {
   const [gltfName, setGltfName] = useState("ASMilated_GameBear_Body.glb");
   const [gltfInput, setGltfInput] = useState("");
 
-  const checkAndSetGltf = async () => {
+  const checkAndSetGltf = async (e: any) => {
+    e.preventDefault();
     const res = await fetch(`./gltf/${gltfInput}`, {
       method: "HEAD",
     });
@@ -22,15 +23,17 @@ const Home: NextPage = () => {
         <title>GLB Viewer</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <label>file name</label>
-      <input
-        autoComplete="on"
-        style={{ width: "300px" }}
-        value={gltfInput}
-        onChange={(e) => setGltfInput(e.target.value)}
-        onSubmit={(e) => console.log(e)}
-      />
-      <button onClick={() => checkAndSetGltf()}>submit</button>
+      <form onSubmit={(e) => checkAndSetGltf(e)}>
+        <label>File name</label>
+        <input
+          autoComplete="on"
+          name="gltf"
+          style={{ width: "300px" }}
+          value={gltfInput}
+          onChange={(e) => setGltfInput(e.target.value)}
+        />
+        <button type="submit">Submit</button>
+      </form>
       <Scene gltfName={gltfName} />
     </div>
   );
